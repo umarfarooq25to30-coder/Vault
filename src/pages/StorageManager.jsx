@@ -10,7 +10,7 @@ import { db } from '../db/database'
 import { useStorage } from '../hooks/useStorage'
 import {
   HardDrive, Image, FileText, Key,
-  CreditCard, BookOpen, File,
+  CreditCard, BookOpen, File, Mic,
   Trash2, RefreshCw, AlertTriangle, X
 } from 'lucide-react'
 
@@ -94,6 +94,15 @@ const MODULE_CONFIG = [
     color: '#8B5CF6',
     description: 'Payment cards',
     path: '/cards',
+  },
+  {
+    key: 'voice',
+    label: 'Voice Notes',
+    types: ['voice'],
+    icon: Mic,
+    color: '#EAB308',
+    description: 'Audio recordings',
+    path: '/voice',
   },
 ]
 

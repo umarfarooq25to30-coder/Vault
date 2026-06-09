@@ -21,8 +21,10 @@ import { Files } from './pages/Files';
 import { Passwords } from './pages/Passwords';
 import { Cards } from './pages/Cards';
 import { Diary } from './pages/Diary';
+import Voice from './pages/Voice';
 import { Settings } from './pages/Settings';
 import StorageManager from './pages/StorageManager';
+import BackupRestore from './pages/BackupRestore';
 import { ToastContainer } from './components/ui/Toast';
 import { ROUTES } from './constants';
 
@@ -172,6 +174,14 @@ export function App() {
             }
           />
           <Route
+            path={ROUTES.VOICE}
+            element={
+              <ProtectedRoute>
+                <Voice />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path={ROUTES.SETTINGS}
             element={
               <ProtectedRoute>
@@ -187,6 +197,11 @@ export function App() {
               </ProtectedRoute>
             }
           />
+          <Route path={ROUTES.BACKUP} element={
+            <ProtectedRoute>
+              <BackupRestore />
+            </ProtectedRoute>
+          } />
 
           {/* Fallback Catch */}
           <Route path="*" element={<Navigate to={ROUTES.ROOT} replace />} />

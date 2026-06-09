@@ -15,8 +15,10 @@ export const ROUTES = {
   PASSWORDS: '/passwords',
   CARDS: '/cards',
   DIARY: '/diary',
+  VOICE: '/voice',
   SETTINGS: '/settings',
   STORAGE: '/storage',
+  BACKUP: '/backup',
   RESET_PASSWORD: '/reset-password',
 };
 
@@ -28,10 +30,11 @@ export const ESSENTIALS_NAV_ITEMS = [
   { id: 'passwords', label: 'Passwords', icon: 'Key', path: ROUTES.PASSWORDS },
   { id: 'cards', label: 'Cards', icon: 'CreditCard', path: ROUTES.CARDS },
   { id: 'diary', label: 'Diary', icon: 'BookOpen', path: ROUTES.DIARY },
+  { id: 'voice', label: 'Voice Notes', icon: 'Mic', path: ROUTES.VOICE },
 ];
 
 export const SECURITY_NAV_ITEMS = [
   { id: 'settings', label: 'Settings', icon: 'Settings', path: ROUTES.SETTINGS },
   { id: 'storage', label: 'Storage', icon: 'HardDrive', path: ROUTES.STORAGE },
-  { id: 'backup', label: 'Backup & Restore', icon: 'Database', path: '#', disabled: true },
+  { id: 'backup', label: 'Backup & Restore', icon: 'Database', path: ROUTES.BACKUP },
 ];

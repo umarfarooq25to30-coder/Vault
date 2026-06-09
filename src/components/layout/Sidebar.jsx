@@ -19,7 +19,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Search,
-  HardDrive
+  HardDrive,
+  Mic
 } from 'lucide-react';
 import { useUiStore } from '../../store/uiStore';
 import { useVaultStore } from '../../store/vaultStore';
@@ -83,6 +84,7 @@ export function Sidebar() {
       Settings: <Settings className={className} />,
       Database: <Database className={className} />,
       HardDrive: <HardDrive className={className} />,
+      Mic: <Mic className={className} />,
     };
     return icons[iconName] || <Folder className={className} />;
   };
@@ -96,11 +98,12 @@ export function Sidebar() {
       { id: 'passwords', label: 'Passwords', icon: 'Key', path: ROUTES.PASSWORDS },
       { id: 'cards', label: 'Cards', icon: 'CreditCard', path: ROUTES.CARDS },
       { id: 'diary', label: 'Diary', icon: 'BookOpen', path: ROUTES.DIARY },
+      { id: 'voice', label: 'Voice Notes', icon: 'Mic', path: ROUTES.VOICE },
     ],
     security: [
       { id: 'settings', label: 'Settings', icon: 'Settings', path: ROUTES.ROUTES_SETTINGS || ROUTES.SETTINGS },
       { id: 'storage', label: 'Storage', icon: 'HardDrive', path: ROUTES.STORAGE },
-      { id: 'backup', label: 'Backup & Restore', icon: 'Database', path: '#', disabled: true },
+      { id: 'backup', label: 'Backup & Restore', icon: 'Database', path: ROUTES.BACKUP },
     ],
   };
 
@@ -252,7 +255,7 @@ export function Sidebar() {
           <Search className="w-3.5 h-3.5 text-[#9B9B9B] dark:text-[#888888] ml-0.5" />
           <input 
             type="text" 
-            placeholder="Search..." 
+            placeholder="Filter pages..." 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="bg-transparent text-xs text-[#1A1A1A] dark:text-[#F0F0F0] ml-2 w-full outline-none placeholder-[#9B9B9B] dark:placeholder-[#888888]"
@@ -282,7 +285,7 @@ export function Sidebar() {
               essentialsExpanded ? 'max-h-[300px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
             }`}
           >
-            {navItems.essentials.map((item) => {
+            {navItems.essentials.filter(i => i.label.toLowerCase().includes(searchQuery.toLowerCase())).map((item) => {
               const isActive = location.pathname === item.path;
               return (
                 <button
@@ -323,7 +326,7 @@ export function Sidebar() {
               securityExpanded ? 'max-h-[150px] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
             }`}
           >
-            {navItems.security.map((item) => {
+            {navItems.security.filter(i => i.label.toLowerCase().includes(searchQuery.toLowerCase())).map((item) => {
               const isActive = location.pathname === item.path;
               return (
                 <button
