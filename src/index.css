@@ -1,0 +1,712 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, SF Mono, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  --animate-fade-in: fadeIn 200ms ease-out forwards;
+  --animate-slide-up: slideUp 250ms ease-out forwards;
+  --animate-shake: shake 400ms ease-in-out;
+  --animate-pulse-soft: pulseSoft 2s ease-in-out infinite;
+  --animate-bounce-soft: bounceSoft 2s ease-in-out infinite;
+
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @keyframes slideUp {
+    0% { opacity: 0; transform: translateY(12px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(6px); }
+  }
+  @keyframes pulseSoft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+  @keyframes bounceSoft {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+}
+
+/* Global transitions for beautiful UI interactive feedback */
+* {
+  transition-property: background-color, border-color, color, opacity, transform, box-shadow;
+  transition-duration: 150ms;
+  transition-timing-function: ease;
+}
+
+/* Smooth theme switching — 200ms transitions for dark mode toggles */
+body, html {
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+  font-family: var(--font-sans);
+}
+
+/* Disable Transitions where required such as specific components */
+.no-transition *,
+.vault-editor,
+.vault-editor *,
+.vault-editor *::before,
+.vault-editor *::after {
+  transition: none !important;
+}
+
+/* Disable horizontal scrolling & style body appropriately on auth pages */
+body.auth-page-active {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+/* Global scrollbar style to completely hide scrollbars while fully keeping native scrolling functions active */
+* {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+/* Ensure no webkit scrollbars show up for any containers */
+.sidebar-scroll::-webkit-scrollbar,
+.app-scroll::-webkit-scrollbar,
+.custom-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+
+/* ==========================================================================
+   TIPTAP RICH TEXT EDITOR PROSE STYLES
+   ========================================================================== */
+
+/* Editor container */
+.vault-editor {
+  outline: none;
+  min-height: 400px;
+  padding: 24px 32px;
+  font-size: 15px;
+  line-height: 1.75;
+  color: #1A1A1A !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.dark .vault-editor,
+.vault-editor.dark,
+[class*="dark"] .vault-editor {
+  color: #FFFFFF !important;
+}
+
+/* Force all text/node descendants of the editor to inherit the configured high-contrast text color by default */
+.vault-editor p,
+.vault-editor h1,
+.vault-editor h2,
+.vault-editor h3,
+.vault-editor h4,
+.vault-editor h5,
+.vault-editor h6,
+.vault-editor li,
+.vault-editor span,
+.vault-editor div,
+.vault-editor ul,
+.vault-editor ol,
+.ProseMirror p,
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3,
+.ProseMirror h4,
+.ProseMirror h5,
+.ProseMirror h6,
+.ProseMirror li,
+.ProseMirror span,
+.ProseMirror div,
+.ProseMirror ul,
+.ProseMirror ol {
+  color: inherit;
+}
+
+/* Headings */
+.vault-editor h1 { 
+  font-size: 2em; font-weight: 600; 
+  margin: 1.2em 0 0.4em; line-height: 1.3;
+}
+.vault-editor h2 { 
+  font-size: 1.5em; font-weight: 600; 
+  margin: 1.1em 0 0.4em; line-height: 1.35;
+}
+.vault-editor h3 { 
+  font-size: 1.25em; font-weight: 600; 
+  margin: 1em 0 0.4em; line-height: 1.4;
+}
+.vault-editor h4 { 
+  font-size: 1.1em; font-weight: 600; 
+  margin: 1em 0 0.4em;
+}
+.vault-editor h5, .vault-editor h6 { 
+  font-size: 1em; font-weight: 600; 
+  margin: 0.8em 0 0.4em;
+}
+
+/* Paragraph */
+.vault-editor p { 
+  margin: 0 0 0.75em; 
+}
+.vault-editor p:last-child { margin-bottom: 0; }
+
+/* Lists */
+.vault-editor ul { 
+  list-style-type: disc; 
+  padding-left: 1.5em; 
+  margin: 0.5em 0;
+}
+.vault-editor ol { 
+  list-style-type: decimal; 
+  padding-left: 1.5em; 
+  margin: 0.5em 0;
+}
+.vault-editor li { margin: 0.25em 0; }
+.vault-editor ul ul { list-style-type: circle; }
+.vault-editor ul ul ul { list-style-type: square; }
+
+/* Task list */
+.vault-editor ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 0.5em;
+}
+.vault-editor ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.vault-editor ul[data-type="taskList"] li > label {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.vault-editor ul[data-type="taskList"] li > label input {
+  width: 16px; height: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  accent-color: #1A1A1A;
+}
+.vault-editor ul[data-type="taskList"] li[data-checked="true"] > div {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+/* Blockquote with background contrast, zero borders */
+.vault-editor blockquote {
+  padding: 10px 16px;
+  margin: 1em 0;
+  color: #6B6B6B;
+  background: #F5F5F5;
+  border-radius: 8px;
+}
+.dark .vault-editor blockquote {
+  background: #252525;
+  color: #888888;
+}
+
+/* Inline code */
+.vault-editor code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.875em;
+  background: #F5F5F5;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #E11D48;
+}
+.dark .vault-editor code {
+  background: #252525;
+  color: #FB7185;
+}
+
+.vault-editor .code-block-content {
+  caret-color: #E6EDF3 !important;
+  color: #E6EDF3 !important;
+  outline: none !important;
+}
+
+.vault-editor pre {
+  color: #E6EDF3 !important;
+}
+
+.vault-editor pre code {
+  color: inherit !important;
+}
+
+/* VS Code Dark+ theme for code blocks */
+.vault-editor .hljs-keyword,
+.vault-editor .hljs-selector-tag,
+.vault-editor .hljs-built_in {
+  color: #569CD6;
+}
+
+.vault-editor .hljs-string,
+.vault-editor .hljs-attr,
+.vault-editor .hljs-template-variable {
+  color: #CE9178;
+}
+
+.vault-editor .hljs-number,
+.vault-editor .hljs-literal {
+  color: #B5CEA8;
+}
+
+.vault-editor .hljs-comment,
+.vault-editor .hljs-quote {
+  color: #6A9955;
+  font-style: italic;
+}
+
+.vault-editor .hljs-function,
+.vault-editor .hljs-title {
+  color: #DCDCAA;
+}
+
+.vault-editor .hljs-class .hljs-title,
+.vault-editor .hljs-type {
+  color: #4EC9B0;
+}
+
+.vault-editor .hljs-variable,
+.vault-editor .hljs-template-tag {
+  color: #9CDCFE;
+}
+
+.vault-editor .hljs-tag {
+  color: #569CD6;
+}
+
+.vault-editor .hljs-name {
+  color: #569CD6;
+}
+
+.vault-editor .hljs-attribute {
+  color: #9CDCFE;
+}
+
+.vault-editor .hljs-symbol,
+.vault-editor .hljs-bullet,
+.vault-editor .hljs-addition {
+  color: #B5CEA8;
+}
+
+.vault-editor .hljs-deletion {
+  color: #F44747;
+}
+
+.vault-editor .hljs-selector-class,
+.vault-editor .hljs-selector-id {
+  color: #D7BA7D;
+}
+
+.vault-editor .hljs-meta {
+  color: #569CD6;
+}
+
+.vault-editor .hljs-operator {
+  color: #D4D4D4;
+}
+
+.vault-editor .hljs-punctuation {
+  color: #D4D4D4;
+}
+
+
+/* Links */
+.vault-editor a.editor-link {
+  color: #2563EB;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.dark .vault-editor a.editor-link {
+  color: #60A5FA;
+}
+
+/* Images */
+.vault-editor img.editor-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  cursor: default;
+  display: block;
+}
+.vault-editor img.editor-image.ProseMirror-selectednode {
+  border-radius: 8px;
+}
+
+/* Table: Customizable MS Word style with high-contrast borders and active resizing */
+.vault-editor table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.25em 0;
+  table-layout: fixed;
+  overflow: hidden;
+  font-size: 14px;
+}
+
+.vault-editor th,
+.vault-editor td {
+  min-width: 60px;
+  padding: 10px 14px;
+  vertical-align: top;
+  position: relative;
+  box-shadow: none;
+  outline: none !important;
+  /* Soft default structural border which can be fully overridden by custom inline border styling */
+  border: 1px solid rgba(120, 120, 120, 0.2);
+}
+
+.vault-editor th {
+  background-color: rgba(120, 120, 120, 0.1);
+  font-weight: 600;
+  color: #111827;
+}
+
+.dark .vault-editor th {
+  background-color: rgba(120, 120, 120, 0.2);
+  color: #F9FAFB;
+}
+
+.vault-editor td {
+  background-color: rgba(120, 120, 120, 0.04);
+  color: inherit;
+}
+
+.vault-editor tr:nth-child(even) td {
+  background-color: rgba(120, 120, 120, 0.08);
+}
+
+.vault-editor td.selectedCell,
+.vault-editor th.selectedCell {
+  background-color: rgba(59, 130, 246, 0.22) !important;
+  box-shadow: none !important;
+}
+
+.dark .vault-editor td.selectedCell,
+.dark .vault-editor th.selectedCell {
+  background-color: rgba(59, 130, 246, 0.35) !important;
+  box-shadow: none !important;
+}
+
+/* Custom horizontal-line cursor helper definitions */
+.resizer-horiz-custom,
+.resizer-horiz-custom * {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='12' viewBox='0 0 32 12'><line x1='6' y1='3' x2='26' y2='3' stroke='%23666666' stroke-width='2.5' stroke-linecap='round'/><line x1='6' y1='9' x2='26' y2='9' stroke='%23666666' stroke-width='2.5' stroke-linecap='round'/></svg>") 16 6, col-resize !important;
+}
+.dark .resizer-horiz-custom,
+.dark .resizer-horiz-custom * {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='12' viewBox='0 0 32 12'><line x1='6' y1='3' x2='26' y2='3' stroke='%23CCCCCC' stroke-width='2.5' stroke-linecap='round'/><line x1='6' y1='9' x2='26' y2='9' stroke='%23CCCCCC' stroke-width='2.5' stroke-linecap='round'/></svg>") 16 6, col-resize !important;
+}
+
+/* Column resize handle — transparent per request (don't add resize line visual indicator) */
+.vault-editor .column-resize-handle {
+  background-color: transparent !important;
+  bottom: 0;
+  pointer-events: auto !important;
+  position: absolute;
+  right: -1.5px;
+  top: 0;
+  width: 5px !important;
+  z-index: 50;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='12' viewBox='0 0 32 12'><line x1='6' y1='3' x2='26' y2='3' stroke='%23666666' stroke-width='2.5' stroke-linecap='round'/><line x1='6' y1='9' x2='26' y2='9' stroke='%23666666' stroke-width='2.5' stroke-linecap='round'/></svg>") 16 6, col-resize !important;
+}
+
+.dark .vault-editor .column-resize-handle {
+  background-color: transparent !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='12' viewBox='0 0 32 12'><line x1='6' y1='3' x2='26' y2='3' stroke='%23CCCCCC' stroke-width='2.5' stroke-linecap='round'/><line x1='6' y1='9' x2='26' y2='9' stroke='%23CCCCCC' stroke-width='2.5' stroke-linecap='round'/></svg>") 16 6, col-resize !important;
+}
+
+/* Base relative cells for table */
+.vault-editor td, 
+.vault-editor th {
+  position: relative;
+}
+
+/* Table focus ring */
+.vault-editor .tableWrapper {
+  overflow-x: auto;
+  margin: 1.25em 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Resize cursor on table */
+.vault-editor table.resize-cursor,
+.vault-editor table.resize-cursor * {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='12' viewBox='0 0 32 12'><line x1='6' y1='3' x2='26' y2='3' stroke='%23666666' stroke-width='2.5' stroke-linecap='round'/><line x1='6' y1='9' x2='26' y2='9' stroke='%23666666' stroke-width='2.5' stroke-linecap='round'/></svg>") 16 6, ew-resize !important;
+}
+
+.dark .vault-editor table.resize-cursor,
+.dark .vault-editor table.resize-cursor * {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='12' viewBox='0 0 32 12'><line x1='6' y1='3' x2='26' y2='3' stroke='%23CCCCCC' stroke-width='2.5' stroke-linecap='round'/><line x1='6' y1='9' x2='26' y2='9' stroke='%23CCCCCC' stroke-width='2.5' stroke-linecap='round'/></svg>") 16 6, ew-resize !important;
+}
+
+/* Highlight */
+.vault-editor mark {
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
+/* Horizontal rule: Elegant empty space instead of a solid line */
+.vault-editor hr {
+  border: none;
+  height: 12px;
+  margin: 1.5em 0;
+}
+
+/* Placeholder */
+.vault-editor p.is-empty::before,
+.vault-editor h1.is-empty::before,
+.vault-editor h2.is-empty::before,
+.vault-editor h3.is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #BBBBBB;
+  pointer-events: none;
+  height: 0;
+}
+.dark .vault-editor p.is-empty::before {
+  color: #444444;
+}
+
+/* Drag handle */
+.drag-handle {
+  cursor: grab;
+  color: #BBBBBB;
+  opacity: 0;
+  transition: opacity 150ms;
+}
+.drag-handle:hover,
+.ProseMirror-focused .drag-handle {
+  opacity: 1;
+}
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+/* App-wide and editor-wide native-style Blue Selection Highlights */
+::selection {
+  background: rgba(59, 130, 246, 0.28) !important;
+  color: inherit !important;
+}
+
+.dark ::selection {
+  background: rgba(59, 130, 246, 0.45) !important;
+  color: inherit !important;
+}
+
+.vault-editor ::selection {
+  background: rgba(59, 130, 246, 0.28) !important;
+}
+
+.dark .vault-editor ::selection {
+  background: rgba(59, 130, 246, 0.45) !important;
+}
+
+/* Global Pointer and Grab Cursors */
+button,
+a,
+select,
+[role="button"],
+[onclick] {
+  cursor: pointer !important;
+}
+
+[disabled],
+.cursor-not-allowed {
+  cursor: not-allowed !important;
+}
+
+[draggable="true"],
+.cursor-grab {
+  cursor: grab !important;
+}
+
+.cursor-grabbing {
+  cursor: grabbing !important;
+}
+
+/* ==========================================================================
+   TIPTAP DIARY RICH TEXT EDITOR STYLES
+   ========================================================================== */
+.vault-diary-editor {
+  outline: none !important;
+  min-height: 400px;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #E0E0E0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.vault-diary-editor .ProseMirror:focus,
+.vault-diary-editor .ProseMirror,
+.ProseMirror:focus,
+.ProseMirror-focused {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.vault-diary-editor p {
+  margin: 0 0 1em;
+}
+
+.vault-diary-editor p.is-editor-empty:first-child::before,
+.vault-diary-editor p.is-empty::before {
+  content: attr(data-placeholder);
+  color: #444444;
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
+
+.vault-diary-editor h1 {
+  font-size: 1.8em;
+  font-weight: 600;
+  margin: 0.8em 0 0.4em;
+  color: #F0F0F0;
+}
+
+.vault-diary-editor h2 {
+  font-size: 1.4em;
+  font-weight: 600;
+  margin: 0.8em 0 0.4em;
+  color: #F0F0F0;
+}
+
+.vault-diary-editor h3 {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin: 0.8em 0 0.4em;
+  color: #F0F0F0;
+}
+
+.vault-diary-editor ul,
+.vault-diary-editor ul[data-type="bulletList"] {
+  list-style-type: disc !important;
+  list-style-position: outside !important;
+  padding-left: 1.5em !important;
+  margin: 0.8em 0 !important;
+}
+
+.vault-diary-editor ol,
+.vault-diary-editor ol[data-type="orderedList"] {
+  list-style-type: decimal !important;
+  list-style-position: outside !important;
+  padding-left: 1.5em !important;
+  margin: 0.8em 0 !important;
+}
+
+.vault-diary-editor li {
+  margin: 0.3em 0 !important;
+  color: inherit !important;
+}
+
+.vault-diary-editor li::marker,
+.vault-diary-editor ul li::marker,
+.vault-diary-editor ol li::marker {
+  color: #E4E4E8 !important;
+  font-weight: 500 !important;
+}
+
+.vault-diary-editor blockquote {
+  border-left: 3px solid #2A2A2A;
+  padding-left: 1em;
+  margin: 1em 0;
+  color: #888888;
+  font-style: italic;
+}
+
+.vault-diary-modal-editor {
+  outline: none;
+  min-height: 300px;
+  font-size: 16px;
+  line-height: 1.9;
+  color: #E0E0E0;
+  font-family: -apple-system, BlinkMacSystemFont,
+    'Segoe UI', sans-serif;
+}
+
+.vault-diary-modal-editor p { 
+  margin: 0 0 0.8em; 
+}
+
+.vault-diary-modal-editor h1 {
+  font-size: 1.7em; font-weight: 700;
+  color: #F0F0F0; margin: 0.8em 0 0.3em;
+}
+
+.vault-diary-modal-editor h2 {
+  font-size: 1.35em; font-weight: 600;
+  color: #F0F0F0; margin: 0.8em 0 0.3em;
+}
+
+.vault-diary-modal-editor h3 {
+  font-size: 1.15em; font-weight: 600;
+  color: #F0F0F0; margin: 0.7em 0 0.3em;
+}
+
+.vault-diary-modal-editor ul,
+.vault-diary-modal-editor ol {
+  padding-left: 1.4em; margin: 0.4em 0;
+  color: #C0C0C0;
+}
+
+.vault-diary-modal-editor li { 
+  margin: 0.25em 0; 
+}
+
+.vault-diary-modal-editor blockquote {
+  padding-left: 1em; margin: 0.8em 0;
+  color: #666666; font-style: italic;
+  position: relative;
+}
+
+.vault-diary-modal-editor blockquote::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: #2A2A2A;
+  border-radius: 2px;
+}
+
+.vault-diary-modal-editor mark {
+  background: rgba(255,215,0,0.2);
+  color: #FFD700;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+.vault-diary-modal-editor p.is-editor-empty
+  :first-child::before {
+  content: attr(data-placeholder);
+  color: #333333;
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.vault-diary-modal-editor code {
+  font-family: 'Courier New', monospace;
+  font-size: 0.875em;
+  background: rgba(255,255,255,0.06);
+  padding: 2px 5px;
+  border-radius: 4px;
+  color: #C0C0C0;
+}
+

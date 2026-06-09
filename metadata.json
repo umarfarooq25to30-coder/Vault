@@ -1,0 +1,6 @@
+{
+  "name": "Vault",
+  "description": "A 100% offline, fully encrypted personal data storage application featuring secure notes, photos, files, passwords, cards, and diary storage.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
