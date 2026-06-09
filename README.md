@@ -166,41 +166,6 @@ npm run build
 ```bash
 npm run preview
 ```
-
-<br>
-
-## Project Structure
-
-```
-Vault/
-├── public/
-│   └── vault-logo.png
-├── src/
-│   ├── components/
-│   │   ├── Notes/
-│   │   ├── Gallery/
-│   │   ├── Files/
-│   │   ├── Passwords/
-│   │   ├── Cards/
-│   │   ├── Diary/
-│   │   └── Settings/
-│   ├── crypto/
-│   │   ├── encryption.js       # AES-256-GCM encrypt and decrypt
-│   │   ├── keyDerivation.js    # PBKDF2 SHA-256 key derivation
-│   │   └── memoryWipe.js       # CryptoKey memory cleanup
-│   ├── db/
-│   │   └── dexie.js            # IndexedDB schema via Dexie
-│   ├── context/
-│   │   └── VaultContext.jsx    # Global vault state and lock logic
-│   ├── App.jsx
-│   └── main.jsx
-├── .gitignore
-├── index.html
-├── package.json
-├── vite.config.js
-└── README.md
-```
-
 <br>
 
 ## Security Considerations
